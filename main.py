@@ -178,7 +178,7 @@ async def upload_and_publish(data: UploadRequest):
                 current_y += text_height  # Met à jour la position y pour le texte suivant
 
 
-
+        """
         # Enregistrez l'image modifiée
         #image.save('credited_image.jpg')
 
@@ -200,7 +200,7 @@ async def upload_and_publish(data: UploadRequest):
 
         # Déconnectez-vous
         bot.logout()
-        
+        """
         
 
         return {'message': 'Image publiée avec succès'}
