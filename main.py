@@ -7,6 +7,7 @@ import glob
 import feedparser
 from instabot import Bot
 from pydantic import BaseModel
+import asyncio
 
 app = FastAPI()
 
@@ -15,7 +16,7 @@ class UploadRequest(BaseModel):
     image_url: str
 
 @app.post("/")
-def upload_and_publish(data: UploadRequest):
+async def upload_and_publish(data: UploadRequest):
     try:
         cookie_del = glob.glob("config/*cookie.json")
 
@@ -199,7 +200,7 @@ def upload_and_publish(data: UploadRequest):
 
         # Déconnectez-vous
         bot.logout()
-
+        
         
 
         return {'message': 'Image publiée avec succès'}
