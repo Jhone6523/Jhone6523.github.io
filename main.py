@@ -7,6 +7,7 @@ import glob
 import feedparser
 from instabot import Bot
 from pydantic import BaseModel
+from fastapi.openapi.utils import get_openapi
 
 app = FastAPI()
 
@@ -205,3 +206,23 @@ def upload_and_publish(data: UploadRequest):
         return {'message': 'Image publiée avec succès'}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+def custom_openapi():
+    if app.openapi_schema:
+        return app.openapi_schema
+    openapi_schema = get_openapi(
+        title="Your API Title",
+        version="1.0",
+        description="Your API Description",
+        routes=app.routes,
+    )
+    app.openapi_schema = openapi_schema
+    return app.openapi_schema
+
+app.openapi = custom_openapi
+
+# Exportez la documentation Swagger au format JSON
+import json
+
+with open("swagger.json", "w") as file:
+    json.dump(app.openapi(), file)
