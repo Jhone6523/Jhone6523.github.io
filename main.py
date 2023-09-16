@@ -212,10 +212,15 @@ def upload_and_publish(data: UploadRequest, request: Request):
         # Rembobinez le flux d'octets pour le lire à partir du début
         output_image.seek(0)
         fichier = depot.get_contents(chemin_fichier)
-        # Supprimez le fichier
-        depot.delete_file(fichier.path, "Suppression du fichier", fichier.sha)
+        nouveau_contenu = output_image.read()
         # Créez le fichier dans le dépôt
-        nouveau_fichier = depot.create_file(chemin_fichier, "Message de commit", output_image.read(), branch="master")
+        depot.update_file(
+            chemin_fichier,
+            "Message de commit pour la mise à jour du fichier",
+            nouveau_contenu,
+            fichier.sha,  # SHA actuel du fichier, nécessaire pour la mise à jour
+            branch="master"  # Branche dans laquelle vous souhaitez effectuer la mise à jour
+        )
 
         # Construisez l'URL de téléchargement direct
         lien_fichier = f"https://github.com/Jhone6523/imageinsta/blob/master/image.jpg?raw=true"
