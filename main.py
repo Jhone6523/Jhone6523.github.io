@@ -186,21 +186,36 @@ async def upload_and_publish(data: UploadRequest):
         # Créez une instance de Bot
         bot = Bot()
 
-        # Connectez-vous à votre compte Instagram
-        bot.login(username="comptetestjg", password="Jona1234")
-
-        # Chemin vers la photo que vous souhaitez poster
-        photo_path = "credited_image.jpg"
-
-        # Légende de la photo
-        caption = "J'adore ma nouvelle photo"
-
-        # Poster la photo avec la légende
-        bot.upload_photo(photo_path, caption=caption)
-
-        # Déconnectez-vous
-        bot.logout()
         
+        try:
+            # Essayez de vous connecter et d'effectuer des actions
+            bot.login(username="comptetestjg", password="Jona1234")
+            
+            # Connectez-vous à votre compte Instagram
+            bot.login(username="comptetestjg", password="Jona1234")
+    
+            # Chemin vers la photo que vous souhaitez poster
+            photo_path = "credited_image.jpg"
+    
+            # Légende de la photo
+            caption = "J'adore ma nouvelle photo"
+    
+            # Poster la photo avec la légende
+            bot.upload_photo(photo_path, caption=caption)
+        
+        except Exception as e:
+            # En cas d'erreur 429, attendez un moment avant de réessayer
+            if "429" in str(e):
+                print("Trop de requêtes, en attente pendant quelques minutes...")
+                time.sleep(300)  # Attendre 5 minutes (ou ajustez selon vos besoins)
+            else:
+                # Gérez d'autres exceptions ici...
+                print(f"Erreur : {e}")
+        
+        finally:
+            # Déconnectez-vous
+            bot.logout()
+
         
 
         return {'message': 'Image publiée avec succès'}
