@@ -13,8 +13,8 @@ app = FastAPI()
 
 class UploadRequest(BaseModel):
     # Déclarez les données attendues dans le corps de la requête
-    image_url: str,
-    via: str,
+    image_url: str
+    via: str
     auteur: str
 
 @app.post("/")
