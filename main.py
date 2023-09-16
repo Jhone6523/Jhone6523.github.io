@@ -189,7 +189,7 @@ def upload_and_publish(data: UploadRequest, request: Request):
         
         # Remplacez ces valeurs par vos informations d'authentification GitHub
         nom_utilisateur = "Jhone6523"
-        mot_de_passe = "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"
+        mot_de_passe = "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"
 
         # Créez une instance de l'objet GitHub
         github = Github(nom_utilisateur, mot_de_passe)
@@ -204,7 +204,7 @@ def upload_and_publish(data: UploadRequest, request: Request):
         # Spécifiez le contenu que vous avez mis dans le fichier (peut être vide)
         contenu_fichier = "Contenu de votre fichier."
         
-        """
+        
         # Enregistrez l'image modifiée en tant qu'octets (bytes)
         output_image = io.BytesIO()
         image.save(output_image, format="JPEG")  # Assurez-vous de spécifier le format approprié
@@ -220,7 +220,7 @@ def upload_and_publish(data: UploadRequest, request: Request):
       
         print(f'Le fichier "{chemin_fichier}" a été ajouté avec succès au dépôt GitHub "{nom_depot}".')
         print(f'Le lien vers le fichier est : {lien_fichier}')
-        """
+        
 
         return {'message': 'Image publiée avec succès'}
     except Exception as e:
