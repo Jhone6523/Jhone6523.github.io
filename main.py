@@ -71,7 +71,7 @@ def upload_and_publish(data: UploadRequest, request: Request):
         # Ouvrez l'image
         image = Image.open(nom_fichier)
         new_size = (1080, 1080)
-        image = image.resize(new_size)
+        image = image.thumbnail(new_size)
         # Créez un contexte de dessin
         draw = ImageDraw.Draw(image)
 
