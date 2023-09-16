@@ -1,11 +1,9 @@
 from fastapi import FastAPI, HTTPException, Request
 import os
-import shutil
 import requests
 from PIL import Image, ImageDraw, ImageFont
 import glob
 import feedparser
-from instabot import Bot
 from pydantic import BaseModel
 
 app = FastAPI()
@@ -179,29 +177,12 @@ def upload_and_publish(data: UploadRequest):
 
 
         # Enregistrez l'image modifiée
-        image.save('credited_image.jpg')
+        modified_image_path = 'credited_image.jpg'
+        image.save(modified_image_path)
 
-        
-        # Créez une instance de Bot
-        bot = Bot()
+        # Return the URL of the modified image
+        modified_image_url = f"http://your-server-domain/{modified_image_path}"
 
-        # Connectez-vous à votre compte Instagram
-        bot.login(username="comptetestjg", password="Jona1234")
-
-        # Chemin vers la photo que vous souhaitez poster
-        photo_path = "credited_image.jpg"
-
-        # Légende de la photo
-        caption = "J'adore ma nouvelle photo"
-
-        # Poster la photo avec la légende
-        bot.upload_photo(photo_path, caption=caption)
-
-        # Déconnectez-vous
-        bot.logout()
-
-        
-
-        return {'message': 'Image publiée avec succès'}
+        return {'message': 'Image publiée avec succès : '+modified_image_url}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
