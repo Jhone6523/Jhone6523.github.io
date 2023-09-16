@@ -180,9 +180,9 @@ async def upload_and_publish(data: UploadRequest):
 
 
         # Enregistrez l'image modifiée
-        image.save('credited_image.jpg')
+        #image.save('credited_image.jpg')
 
-        
+        """
         # Créez une instance de Bot
         bot = Bot()
 
@@ -200,7 +200,7 @@ async def upload_and_publish(data: UploadRequest):
 
         # Déconnectez-vous
         bot.logout()
-
+        """
         
 
         return {'message': 'Image publiée avec succès'}
