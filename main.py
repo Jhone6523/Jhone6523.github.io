@@ -189,7 +189,7 @@ def upload_and_publish(data: UploadRequest, request: Request):
         
         # Remplacez ces valeurs par vos informations d'authentification GitHub
         nom_utilisateur = "Jhone6523"
-        mot_de_passe = "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"
+        mot_de_passe = "Jona1234-"
 
         # Créez une instance de l'objet GitHub
         github = Github(nom_utilisateur, mot_de_passe)
