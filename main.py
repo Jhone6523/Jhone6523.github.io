@@ -200,18 +200,20 @@ def upload_and_publish(data: UploadRequest, request: Request):
         depot = github.get_user().get_repo(nom_depot)
 
         # Spécifiez le chemin et le nom du fichier que vous avez ajouté
-        chemin_fichier = "image5.jpg"
+        chemin_fichier = "image.jpg"
 
         # Spécifiez le contenu que vous avez mis dans le fichier (peut être vide)
         contenu_fichier = "Contenu de votre fichier."
-
+        
         # Enregistrez l'image modifiée en tant qu'octets (bytes)
         output_image = io.BytesIO()
         image.save(output_image, format="JPEG")  # Assurez-vous de spécifier le format approprié
 
         # Rembobinez le flux d'octets pour le lire à partir du début
         output_image.seek(0)
-
+        fichier = depot.get_contents(chemin_fichier)
+        # Supprimez le fichier
+        depot.delete_file(fichier.path, "Suppression du fichier")
         # Créez le fichier dans le dépôt
         nouveau_fichier = depot.create_file(chemin_fichier, "Message de commit", output_image.read(), branch="master")
 
