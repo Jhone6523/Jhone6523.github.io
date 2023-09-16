@@ -5,10 +5,9 @@ import requests
 from PIL import Image, ImageDraw, ImageFont
 import glob
 import feedparser
-from instabot import Bot
+from instagrapi import Client
 from pydantic import BaseModel
 import asyncio
-import time  # Ajout du module time
 
 app = FastAPI()
 
@@ -38,13 +37,6 @@ async def upload_and_publish(data: UploadRequest):
         rss_url = "https://www.futura-sciences.com/rss/actualites.xml"
 
         feed = feedparser.parse(rss_url)
-
-        for entry in feed.entries:
-            print("Title:", entry.title)
-            print("Link:", entry.link)
-            print("Published Date:", entry.published)
-            print("Summary:", entry.summary)
-            print("\n")
 
             # Lien de l'image que vous voulez télécharger
         url = data.image_url
@@ -183,40 +175,23 @@ async def upload_and_publish(data: UploadRequest):
         # Enregistrez l'image modifiée
         image.save('credited_image.jpg')
 
-        
-        # Créez une instance de Bot
-        bot = Bot()
+        # Créez une instance de Client pour instagrapi
+        client = Client()
 
-        
-        try:
-            # Essayez de vous connecter et d'effectuer des actions
-            bot.login(username="comptetestjg", password="Jona1234")
-            
-            # Connectez-vous à votre compte Instagram
-            bot.login(username="comptetestjg", password="Jona1234")
-    
-            # Chemin vers la photo que vous souhaitez poster
-            photo_path = "credited_image.jpg"
-    
-            # Légende de la photo
-            caption = "J'adore ma nouvelle photo"
-    
-            # Poster la photo avec la légende
-            bot.upload_photo(photo_path, caption=caption)
-        
-        except Exception as e:
-            # En cas d'erreur 429, attendez un moment avant de réessayer
-            if "429" in str(e):
-                print("Trop de requêtes, en attente pendant quelques minutes...")
-                time.sleep(300)  # Attendre 5 minutes (ou ajustez selon vos besoins)
-            else:
-                # Gérez d'autres exceptions ici...
-                print(f"Erreur : {e}")
-        
-        finally:
-            # Déconnectez-vous
-            bot.logout()
+        # Connectez-vous à votre compte Instagram
+        client.login("comptetestjg", "Jona1234")
 
+        # Chemin vers la photo que vous souhaitez poster
+        photo_path = "credited_image.jpg"
+
+        # Légende de la photo
+        caption = "J'adore ma nouvelle photo"
+
+        # Poster la photo avec la légende
+        client.photo_upload(photo_path, caption=caption)
+
+        # Déconnectez-vous
+        client.logout()
         
 
         return {'message': 'Image publiée avec succès'}
