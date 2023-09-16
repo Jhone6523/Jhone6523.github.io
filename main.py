@@ -6,6 +6,7 @@ from PIL import Image, ImageDraw, ImageFont
 import glob
 import feedparser
 import io
+from boto.s3.connection import S3Connection
 from pydantic import BaseModel
 
 app = FastAPI()
@@ -186,10 +187,10 @@ def upload_and_publish(data: UploadRequest, request: Request):
         # Return the URL of the modified image
         modified_image_url = f"{current_domain}{modified_image_path}"
 
-        
+        s3 = S3Connection(os.environ['S3_API'])
         # Remplacez ces valeurs par vos informations d'authentification GitHub
         nom_utilisateur = "Jhone6523"
-        mot_de_passe = "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"
+        mot_de_passe = s3
 
         # Créez une instance de l'objet GitHub
         github = Github(nom_utilisateur, mot_de_passe)
@@ -203,8 +204,7 @@ def upload_and_publish(data: UploadRequest, request: Request):
 
         # Spécifiez le contenu que vous avez mis dans le fichier (peut être vide)
         contenu_fichier = "Contenu de votre fichier."
-        
-        
+
         # Enregistrez l'image modifiée en tant qu'octets (bytes)
         output_image = io.BytesIO()
         image.save(output_image, format="JPEG")  # Assurez-vous de spécifier le format approprié
@@ -217,11 +217,11 @@ def upload_and_publish(data: UploadRequest, request: Request):
 
         # Construisez l'URL de téléchargement direct
         lien_fichier = f"https://github.com/Jhone6523/imageinsta/blob/master/image.jpg?raw=true"
-      
+
         print(f'Le fichier "{chemin_fichier}" a été ajouté avec succès au dépôt GitHub "{nom_depot}".')
         print(f'Le lien vers le fichier est : {lien_fichier}')
-        
 
-        return {'message': 'Image publiée avec succès'}
+
+        return {'message': 'Image publiée avec succès','lien': lien_fichier}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
