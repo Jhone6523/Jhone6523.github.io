@@ -46,7 +46,7 @@ def upload_and_publish(data: UploadRequest, request: Request):
             print("\n")
 
             # Lien de l'image que vous voulez télécharger
-        url = data[0].image_url
+        url = data.image_url
 
         # Envoyer une requête GET pour obtenir le contenu de l'image
         response = requests.get(url)
