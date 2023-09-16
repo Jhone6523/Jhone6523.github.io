@@ -1,5 +1,6 @@
 from fastapi import FastAPI, HTTPException, Request
 import os
+from github import Github
 import requests
 from PIL import Image, ImageDraw, ImageFont
 import glob
@@ -183,6 +184,32 @@ def upload_and_publish(data: UploadRequest, request: Request):
 
         # Return the URL of the modified image
         modified_image_url = f"{current_domain}{modified_image_path}"
+
+
+        # Remplacez ces valeurs par vos informations d'authentification GitHub
+        nom_utilisateur = "Jhone6523"
+        mot_de_passe = "Jona1234-"
+
+        # Créez une instance de l'objet GitHub
+        github = Github(nom_utilisateur, mot_de_passe)
+
+        # Récupérez le dépôt (repository) dans lequel vous avez ajouté le fichier
+        nom_depot = "imageinsta"
+        depot = github.get_user().get_repo(nom_depot)
+
+        # Spécifiez le chemin et le nom du fichier que vous avez ajouté
+        chemin_fichier = "nouveau_fichier.txt"
+
+        # Spécifiez le contenu que vous avez mis dans le fichier (peut être vide)
+        contenu_fichier = "Contenu de votre fichier."
+
+        # Créez le fichier dans le dépôt
+        nouveau_fichier = depot.create_file(chemin_fichier, "Message de commit", contenu_fichier, branch="master")
+
+        # Récupérez le lien direct vers le fichier
+        lien_fichier = nouveau_fichier.download_url
+        print(f'Le fichier "{chemin_fichier}" a été ajouté avec succès au dépôt GitHub "{nom_depot}".')
+        print(f'Le lien vers le fichier est : {lien_fichier}')
         image.save(modified_image_path)
 
         return {'message': 'Image publiée avec succès : '+modified_image_url}
