@@ -94,7 +94,28 @@ def upload_and_publish(data: UploadRequest, request: Request):
         longueur_ligne = largeur  # La ligne s'étend sur toute la largeur de l'image
         draw.line([position_ligne, (position_ligne[0] + longueur_ligne, position_ligne[1])], fill=couleur_contours, width=largeur_bordure)
 
-
+        def adjust_font_size(text, font, max_width, max_height):
+            # Calculez la largeur du texte actuelle
+            textbbox = draw.textbbox((0, 0), text, font=font)
+            current_text_width = textbbox[2] - textbbox[0]
+            
+            # Calculez la hauteur du texte en fonction du nombre de lignes nécessaires
+            lines = wrap_and_center_text(text, font, max_width)
+            total_text_height = len(lines) * (textbbox[3] - textbbox[1])
+        
+            # Tant que la largeur ou la hauteur du texte dépasse les limites
+            while current_text_width > max_width or total_text_height > max_height:
+                # Réduisez la taille de la police d'un point
+                font = ImageFont.truetype("arial.ttf", font.size - 1)
+                
+                # Recalculez la largeur et la hauteur du texte
+                textbbox = draw.textbbox((0, 0), text, font=font)
+                current_text_width = textbbox[2] - textbbox[0]
+                lines = wrap_and_center_text(text, font, max_width)
+                total_text_height = len(lines) * (textbbox[3] - textbbox[1])
+        
+            return font  # Retournez la police ajustée
+        
         # Spécifiez la police, le texte et la couleur du texte
         font = ImageFont.truetype("arial.ttf", 12)  # Utilisez la police Arial avec une taille de 24 points
         text = "Photo par" +data.auteur+" \n via "+data.via  # Remplacez par votre texte de crédit
@@ -121,13 +142,13 @@ def upload_and_publish(data: UploadRequest, request: Request):
         # Spécifiez la police, le texte et la couleur du texte
         font_size = 24
         font = ImageFont.truetype("arial.ttf", font_size)  # Utilisez la police Arial avec une taille initiale
-
+        
         text = "Votre texte ici. Assurez-vous qu'il ne dépasse pas le rectangle blanc. Si cela se produit, un retour à la ligne sera automatiquement ajouté."  # Remplacez par votre texte
         text_color = (0, 0, 0)  # Couleur du texte (R, G, B)
 
         # Calculez la hauteur maximale pour le texte (pour qu'il n'y ait pas de débordement)
         max_text_height = point_fin[1] - point_depart[1]
-
+        font = adjust_font_size(text, font, largeur, max_text_height)
         # Calculez la largeur du texte avec la police actuelle
         textbbox = draw.textbbox((0, 0), text, font=font)
         text_width = textbbox[2] - textbbox[0]
