@@ -212,14 +212,8 @@ def upload_and_publish(data: UploadRequest, request: Request):
         # Rembobinez le flux d'octets pour le lire à partir du début
         output_image.seek(0)
 
-        # Récupérez le contenu actuel du fichier depuis GitHub
-        contenu_actuel = depot.get_contents(chemin_fichier)
-        
-        # Obtenez le "sha" actuel du fichier
-        sha_actuel = contenu_actuel.sha
-
         # Créez le fichier dans le dépôt
-        nouveau_fichier = depot.create_file(chemin_fichier, "Message de commit", output_image.read(), branch="master", sha=sha_actuel)
+        nouveau_fichier = depot.create_file(chemin_fichier, "Message de commit", output_image.read(), branch="master")
 
         # Construisez l'URL de téléchargement direct
         lien_fichier = f"https://github.com/Jhone6523/imageinsta/blob/master/image.jpg?raw=true"
