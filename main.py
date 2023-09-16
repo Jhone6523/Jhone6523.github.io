@@ -13,7 +13,7 @@ class UploadRequest(BaseModel):
     image_url: str
 
 @app.post("/")
-def upload_and_publish(data: UploadRequest):
+def upload_and_publish(data: UploadRequest, request: Request):
     try:
         cookie_del = glob.glob("config/*cookie.json")
 
@@ -178,8 +178,13 @@ def upload_and_publish(data: UploadRequest):
 
         # Enregistrez l'image modifiée
         modified_image_path = 'credited_image.jpg'
-        image.save(modified_image_path)
+        # Get the base URL of the current request
+        current_domain = str(request.base_url)
 
+        # Return the URL of the modified image
+        modified_image_url = f"{current_domain}{modified_image_path}"
+        image.save(modified_image_path)
+        current_domain = request.base_url
         # Return the URL of the modified image
         modified_image_url = f"http://your-server-domain/{modified_image_path}"
 
