@@ -184,9 +184,6 @@ def upload_and_publish(data: UploadRequest, request: Request):
         # Return the URL of the modified image
         modified_image_url = f"{current_domain}{modified_image_path}"
         image.save(modified_image_path)
-        current_domain = request.base_url
-        # Return the URL of the modified image
-        modified_image_url = f"http://your-server-domain/{modified_image_path}"
 
         return {'message': 'Image publiée avec succès : '+modified_image_url}
     except Exception as e:
