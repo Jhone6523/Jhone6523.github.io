@@ -13,7 +13,9 @@ app = FastAPI()
 
 class UploadRequest(BaseModel):
     # Déclarez les données attendues dans le corps de la requête
-    image_url: str
+    image_url: str,
+    via: str,
+    auteur: str
 
 @app.post("/")
 def upload_and_publish(data: UploadRequest, request: Request):
