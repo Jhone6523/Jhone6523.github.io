@@ -186,7 +186,7 @@ def upload_and_publish(data: UploadRequest, request: Request):
         # Return the URL of the modified image
         modified_image_url = f"{current_domain}{modified_image_path}"
 
-
+        """
         # Remplacez ces valeurs par vos informations d'authentification GitHub
         nom_utilisateur = "Jhone6523"
         mot_de_passe = "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"
@@ -216,11 +216,11 @@ def upload_and_publish(data: UploadRequest, request: Request):
 
         # Construisez l'URL de téléchargement direct
         lien_fichier = f"https://github.com/Jhone6523/imageinsta/blob/master/image.jpg?raw=true"
-
+      
         print(f'Le fichier "{chemin_fichier}" a été ajouté avec succès au dépôt GitHub "{nom_depot}".')
         print(f'Le lien vers le fichier est : {lien_fichier}')
+        """
 
-
-        return {'message': 'Image publiée avec succès','lien': lien_fichier}
+        return {'message': 'Image publiée avec succès'}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
