@@ -5,6 +5,7 @@ import requests
 from PIL import Image, ImageDraw, ImageFont
 import glob
 import feedparser
+import io
 from pydantic import BaseModel
 
 app = FastAPI()
@@ -188,7 +189,7 @@ def upload_and_publish(data: UploadRequest, request: Request):
 
         # Remplacez ces valeurs par vos informations d'authentification GitHub
         nom_utilisateur = "Jhone6523"
-        mot_de_passe = "Jona1234-"
+        mot_de_passe = "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"
 
         # Créez une instance de l'objet GitHub
         github = Github(nom_utilisateur, mot_de_passe)
@@ -198,20 +199,28 @@ def upload_and_publish(data: UploadRequest, request: Request):
         depot = github.get_user().get_repo(nom_depot)
 
         # Spécifiez le chemin et le nom du fichier que vous avez ajouté
-        chemin_fichier = "nouveau_fichier.txt"
+        chemin_fichier = "image.jpg"
 
         # Spécifiez le contenu que vous avez mis dans le fichier (peut être vide)
         contenu_fichier = "Contenu de votre fichier."
 
-        # Créez le fichier dans le dépôt
-        nouveau_fichier = depot.create_file(chemin_fichier, "Message de commit", contenu_fichier, branch="master")
+        # Enregistrez l'image modifiée en tant qu'octets (bytes)
+        output_image = io.BytesIO()
+        image.save(output_image, format="JPEG")  # Assurez-vous de spécifier le format approprié
 
-        # Récupérez le lien direct vers le fichier
-        lien_fichier = nouveau_fichier.download_url
+        # Rembobinez le flux d'octets pour le lire à partir du début
+        output_image.seek(0)
+
+        # Créez le fichier dans le dépôt
+        nouveau_fichier = depot.create_file(chemin_fichier, "Message de commit", output_image.read(), branch="master")
+
+        # Construisez l'URL de téléchargement direct
+        lien_fichier = f"https://github.com/Jhone6523/imageinsta/blob/master/image.jpg?raw=true"
+
         print(f'Le fichier "{chemin_fichier}" a été ajouté avec succès au dépôt GitHub "{nom_depot}".')
         print(f'Le lien vers le fichier est : {lien_fichier}')
-        image.save(modified_image_path)
 
-        return {'message': 'Image publiée avec succès : '+modified_image_url}
+
+        return {'message': 'Image publiée avec succès','lien': lien_fichier}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
