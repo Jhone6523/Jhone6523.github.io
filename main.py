@@ -5,9 +5,8 @@ import requests
 from PIL import Image, ImageDraw, ImageFont
 import glob
 import feedparser
-from instagrapi import Client
+from instabot import Bot
 from pydantic import BaseModel
-import asyncio
 
 app = FastAPI()
 
@@ -16,7 +15,7 @@ class UploadRequest(BaseModel):
     image_url: str
 
 @app.post("/")
-async def upload_and_publish(data: UploadRequest):
+def upload_and_publish(data: UploadRequest):
     try:
         cookie_del = glob.glob("config/*cookie.json")
 
@@ -37,6 +36,13 @@ async def upload_and_publish(data: UploadRequest):
         rss_url = "https://www.futura-sciences.com/rss/actualites.xml"
 
         feed = feedparser.parse(rss_url)
+
+        for entry in feed.entries:
+            print("Title:", entry.title)
+            print("Link:", entry.link)
+            print("Published Date:", entry.published)
+            print("Summary:", entry.summary)
+            print("\n")
 
             # Lien de l'image que vous voulez télécharger
         url = data.image_url
@@ -175,11 +181,12 @@ async def upload_and_publish(data: UploadRequest):
         # Enregistrez l'image modifiée
         image.save('credited_image.jpg')
 
-        # Créez une instance de Client pour instagrapi
-        client = Client()
+        
+        # Créez une instance de Bot
+        bot = Bot()
 
         # Connectez-vous à votre compte Instagram
-        client.login("comptetestjg", "Jona1234")
+        bot.login(username="comptetestjg", password="Jona1234")
 
         # Chemin vers la photo que vous souhaitez poster
         photo_path = "credited_image.jpg"
@@ -188,10 +195,11 @@ async def upload_and_publish(data: UploadRequest):
         caption = "J'adore ma nouvelle photo"
 
         # Poster la photo avec la légende
-        client.photo_upload(photo_path, caption=caption)
+        bot.upload_photo(photo_path, caption=caption)
 
         # Déconnectez-vous
-        client.logout()
+        bot.logout()
+
         
 
         return {'message': 'Image publiée avec succès'}
