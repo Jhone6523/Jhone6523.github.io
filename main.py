@@ -95,7 +95,7 @@ def upload_and_publish(data: UploadRequest, request: Request):
 
         # Spécifiez la police, le texte et la couleur du texte
         font = ImageFont.truetype("arial.ttf", 12)  # Utilisez la police Arial avec une taille de 24 points
-        text = "Photo par Votre Nom \n via : futura-science"  # Remplacez par votre texte de crédit
+        text = "Photo par Votre" +data.auteur+" \n via : "+data.via  # Remplacez par votre texte de crédit
         text_color = (255, 255, 255)  # Couleur blanche (R, G, B)
 
         # Calculez la largeur du texte en utilisant textbbox
