@@ -186,7 +186,7 @@ def upload_and_publish(data: UploadRequest, request: Request):
         # Return the URL of the modified image
         modified_image_url = f"{current_domain}{modified_image_path}"
 
-        """
+        
         # Remplacez ces valeurs par vos informations d'authentification GitHub
         nom_utilisateur = "Jhone6523"
         mot_de_passe = "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"
@@ -203,7 +203,8 @@ def upload_and_publish(data: UploadRequest, request: Request):
 
         # Spécifiez le contenu que vous avez mis dans le fichier (peut être vide)
         contenu_fichier = "Contenu de votre fichier."
-
+        
+        """
         # Enregistrez l'image modifiée en tant qu'octets (bytes)
         output_image = io.BytesIO()
         image.save(output_image, format="JPEG")  # Assurez-vous de spécifier le format approprié
