@@ -200,7 +200,7 @@ def upload_and_publish(data: UploadRequest, request: Request):
         depot = github.get_user().get_repo(nom_depot)
 
         # Spécifiez le chemin et le nom du fichier que vous avez ajouté
-        chemin_fichier = "image3.jpg"
+        chemin_fichier = "image5.jpg"
 
         # Spécifiez le contenu que vous avez mis dans le fichier (peut être vide)
         contenu_fichier = "Contenu de votre fichier."
