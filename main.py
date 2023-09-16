@@ -187,10 +187,10 @@ def upload_and_publish(data: UploadRequest, request: Request):
         # Return the URL of the modified image
         modified_image_url = f"{current_domain}{modified_image_path}"
 
-        s3 = S3Connection(os.environ['S3_API'])
+        
         # Remplacez ces valeurs par vos informations d'authentification GitHub
         nom_utilisateur = "Jhone6523"
-        mot_de_passe = s3
+        mot_de_passe = os.environ['S3_API']
 
         # Créez une instance de l'objet GitHub
         github = Github(nom_utilisateur, mot_de_passe)
