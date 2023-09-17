@@ -74,7 +74,16 @@ def upload_and_publish(data: UploadRequest, request: Request):
         # Ouvrez l'image
         image = Image.open(nom_fichier)
 
-        image = image.resize((1290, 878),Image.LANCZOS)
+        taille_cote = min(largeur, hauteur)
+        left = (largeur - taille_cote) / 2
+        top = (hauteur - taille_cote) / 2
+        right = (largeur + taille_cote) / 2
+        bottom = (hauteur + taille_cote) / 2
+        
+        # Recadrer l'image pour en faire un carré de 800x800
+        image_cropee = image.crop((left, top, right, bottom))
+        
+        image = image_cropee.resize((800, 800),Image.LANCZOS)
         # Créez un contexte de dessin
         draw = ImageDraw.Draw(image)
 
