@@ -89,6 +89,7 @@ def upload_and_publish(data: UploadRequest, request: Request):
         # Créez un contexte de dessin
         draw = ImageDraw.Draw(image)
 
+        largeur, hauteur = image.size
 
 
         # Définissez les coordonnées du point de départ et de fin du bandeau rouge
