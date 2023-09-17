@@ -145,7 +145,7 @@ def upload_and_publish(data: UploadRequest, request: Request):
 
 
         # Spécifiez la police, le texte et la couleur du texte
-        font_size = 12
+        font_size = 120
         font = ImageFont.truetype("arial.ttf", font_size)  # Utilisez la police Arial avec une taille initiale
 
         text = data.caption
