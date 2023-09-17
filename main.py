@@ -16,6 +16,7 @@ class UploadRequest(BaseModel):
     image_url: str
     auteur: str
     via: str
+    caption: str
 
 @app.post("/")
 def upload_and_publish(data: UploadRequest, request: Request):
@@ -122,7 +123,7 @@ def upload_and_publish(data: UploadRequest, request: Request):
         font_size = 24
         font = ImageFont.truetype("arial.ttf", font_size)  # Utilisez la police Arial avec une taille initiale
 
-        text = "En dépit des apparences, les actions apparemment imprévisibles d'Elon Musk pourraient être les étapes d'un projet bien plus grand : la création d'une intelligence artificielle généralisée."  # Remplacez par votre texte
+        text = data.caption
         text_color = (0, 0, 0)  # Couleur du texte (R, G, B)
 
         # Calculez la hauteur maximale pour le texte (pour qu'il n'y ait pas de débordement)
