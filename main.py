@@ -158,7 +158,7 @@ def upload_and_publish(data: UploadRequest, request: Request):
             font_size = 52
         elif (len(data.caption) > 100 && len(data.caption) < 150:
             font_size = 42
-        else
+        else:
             font_size = 32
         # Calculez la largeur du texte avec la police actuelle
         textbbox = draw.textbbox((0, 0), text, font=font)
