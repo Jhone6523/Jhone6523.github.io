@@ -122,7 +122,7 @@ def upload_and_publish(data: UploadRequest, request: Request):
 
 
         # Calculez la largeur du texte en utilisant textbbox
-        textbbox = draw.textbbox((0, 0), text, font=font)
+        textbbox = draw.textbbox((0, 0), mentions_text, font=font)
 
         # Calcul de la largeur du texte
         text_width = textbbox[2] - textbbox[0]
@@ -190,7 +190,7 @@ def upload_and_publish(data: UploadRequest, request: Request):
             return centered_lines
 
         # Ajoutez le texte en tenant compte de la hauteur maximale
-        wrapped_and_centered_lines = wrap_and_center_text(mentions_text, font, largeur)
+        wrapped_and_centered_lines = wrap_and_center_text(text, font, largeur)
 
         # Dessinez le texte en tenant compte de la hauteur maximale
         current_y = point_depart[1] + 10 # Position y (en bas du rectangle)
