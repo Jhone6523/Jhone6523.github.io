@@ -122,7 +122,7 @@ def upload_and_publish(data: UploadRequest, request: Request):
 
 
         # Calculez la largeur du texte en utilisant textbbox
-        textbbox = draw.textbbox((0, 0), mentions_text, font=font)
+        textbbox = draw.textbbox((0, 0), mentions_text, font=font_mentions)
 
         # Calcul de la largeur du texte
         text_width = textbbox[2] - textbbox[0]
