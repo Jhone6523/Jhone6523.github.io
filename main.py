@@ -93,15 +93,15 @@ def upload_and_publish(data: UploadRequest, request: Request):
 
 
         # Définissez les coordonnées du point de départ et de fin du bandeau rouge
-        point_depart = (0, hauteur // 1)  # Le point de départ est au milieu de l'image en bas
-        point_fin = (largeur, hauteur)  # Le point de fin est au coin inférieur droit de l'image
+        point_depart = (0, hauteur // 2)  # Le point de départ est au milieu de l'image en bas
+        point_fin = (largeur, hauteur - (hauteur // 3))  # Le point de fin est au coin inférieur droit de l'image
 
         # Dessinez le rectangle rouge
-        couleur_bandeau = (255, 255, 255)  # Rouge (R, G, B)
+        couleur_bandeau = (255, 255, 255)  # Blanc (R, G, B)
         draw.rectangle([point_depart, point_fin], fill=couleur_bandeau)
 
         # Dessinez les contours blancs autour du rectangle rouge
-        couleur_contours = (178,34,34)  # Blanc (R, G, B)
+        couleur_contours = (178,34,34)  # Rouge (R, G, B)
         largeur_bordure = 40
         position_ligne = (point_depart[0], point_fin[1])  # Point de départ de la ligne
         longueur_ligne = largeur  # La ligne s'étend sur toute la largeur de l'image
