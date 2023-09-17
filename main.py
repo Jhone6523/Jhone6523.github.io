@@ -93,7 +93,7 @@ def upload_and_publish(data: UploadRequest, request: Request):
 
 
         # Définissez les coordonnées du point de départ et de fin du bandeau rouge
-        point_depart = (0, hauteur // 1.5)  # Le point de départ est au milieu de l'image en bas
+        point_depart = (0, hauteur // 1)  # Le point de départ est au milieu de l'image en bas
         point_fin = (largeur, hauteur)  # Le point de fin est au coin inférieur droit de l'image
 
         # Dessinez le rectangle rouge
@@ -132,7 +132,7 @@ def upload_and_publish(data: UploadRequest, request: Request):
 
 
         # Spécifiez la police, le texte et la couleur du texte
-        font_size = 24
+        font_size = 32
         font = ImageFont.truetype("arial.ttf", font_size)  # Utilisez la police Arial avec une taille initiale
 
         text = data.caption
