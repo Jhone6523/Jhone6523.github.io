@@ -221,7 +221,6 @@ def upload_and_publish(data: UploadRequest, request: Request):
             chemin_fichier,
             "Message de commit pour la mise à jour du fichier",
             nouveau_contenu,
-            fichier.sha,  # SHA actuel du fichier, nécessaire pour la mise à jour
             branch="master"  # Branche dans laquelle vous souhaitez effectuer la mise à jour
         )
 
