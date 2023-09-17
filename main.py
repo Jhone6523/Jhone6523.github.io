@@ -16,7 +16,7 @@ class UploadRequest(BaseModel):
     image_url: str
     auteur: str
     via: str
-    caption: str
+    headline: str
 
 @app.post("/")
 def upload_and_publish(data: UploadRequest, request: Request):
@@ -147,20 +147,20 @@ def upload_and_publish(data: UploadRequest, request: Request):
         # Spécifiez la police, le texte et la couleur du texte
         font_size = 42
         
-        if len(data.caption) < 30:
+        if len(data.headline) < 30:
             font_size = 92
-        elif 30 < len(data.caption) < 50:
+        elif 30 < len(data.headline) < 50:
             font_size = 82
-        elif 50 < len(data.caption) < 75:
+        elif 50 < len(data.headline) < 75:
             font_size = 68
-        elif 75 < len(data.caption) < 100:
+        elif 75 < len(data.headline) < 100:
             font_size = 62
-        elif 100 < len(data.caption) < 150:
+        elif 100 < len(data.headline) < 150:
             font_size = 52
         else:
             font_size = 32
             
-        text = data.caption
+        text = data.headline
         text_color = (0, 0, 0)  # Couleur du texte (R, G, B)
 
         font = ImageFont.truetype("arial.ttf", font_size)  # Utilisez la police Arial avec une taille initiale
