@@ -150,7 +150,16 @@ def upload_and_publish(data: UploadRequest, request: Request):
 
         text = data.caption
         text_color = (0, 0, 0)  # Couleur du texte (R, G, B)
-
+        if(len(data.caption) < 50:
+            font_size = 82
+        elif (len(data.caption) > 50 && len(data.caption) < 75:
+            font_size = 62
+        elif (len(data.caption) > 75 && len(data.caption) < 100:
+            font_size = 52
+        elif (len(data.caption) > 100 && len(data.caption) < 150:
+            font_size = 42
+        else
+            font_size = 32
         # Calculez la largeur du texte avec la police actuelle
         textbbox = draw.textbbox((0, 0), text, font=font)
         text_width = textbbox[2] - textbbox[0]
