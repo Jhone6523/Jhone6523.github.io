@@ -183,7 +183,7 @@ def upload_and_publish(data: UploadRequest, request: Request):
 
 
         # Enregistrez l'image modifiée
-        modified_image_path = 'credited_image.png'
+        modified_image_path = 'credited_image.jpg'
         # Get the base URL of the current request
         current_domain = str(request.base_url)
 
@@ -203,29 +203,30 @@ def upload_and_publish(data: UploadRequest, request: Request):
         depot = github.get_user().get_repo(nom_depot)
 
         # Spécifiez le chemin et le nom du fichier que vous avez ajouté
-        chemin_fichier = "image.png"
+        chemin_fichier = "image.jpg"
 
         # Spécifiez le contenu que vous avez mis dans le fichier (peut être vide)
         contenu_fichier = "Contenu de votre fichier."
         
         # Enregistrez l'image modifiée en tant qu'octets (bytes)
         output_image = io.BytesIO()
-        image.save(output_image, format="PNG")  # Assurez-vous de spécifier le format approprié
+        image.save(output_image, format="JPEG")  # Assurez-vous de spécifier le format approprié
 
         # Rembobinez le flux d'octets pour le lire à partir du début
         output_image.seek(0)
         fichier = depot.get_contents(chemin_fichier)
         nouveau_contenu = output_image.read()
         # Créez le fichier dans le dépôt
-        depot.create_file(
+        depot.update_file(
             chemin_fichier,
             "Message de commit pour la mise à jour du fichier",
             nouveau_contenu,
+            fichier.sha,  # SHA actuel du fichier, nécessaire pour la mise à jour
             branch="master"  # Branche dans laquelle vous souhaitez effectuer la mise à jour
         )
 
         # Construisez l'URL de téléchargement direct
-        lien_fichier = f"https://github.com/Jhone6523/imageinsta/blob/master/image.png?raw=true"
+        lien_fichier = f"https://github.com/Jhone6523/imageinsta/blob/master/image.jpg?raw=true"
 
         print(f'Le fichier "{chemin_fichier}" a été ajouté avec succès au dépôt GitHub "{nom_depot}".')
         print(f'Le lien vers le fichier est : {lien_fichier}')
