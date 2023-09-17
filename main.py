@@ -158,11 +158,11 @@ def upload_and_publish(data: UploadRequest, request: Request):
         if len(data.caption) < 50:
             font_size = 82
         elif 50 < len(data.caption) < 75:
-            font_size = 62
+            font_size = 72
         elif 75 < len(data.caption) < 100:
-            font_size = 52
+            font_size = 62
         elif 100 < len(data.caption) < 150:
-            font_size = 42
+            font_size = 52
         else:
             font_size = 32
     
