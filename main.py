@@ -74,6 +74,8 @@ def upload_and_publish(data: UploadRequest, request: Request):
         # Ouvrez l'image
         image = Image.open(nom_fichier)
 
+        largeur, hauteur = image.size
+        
         taille_cote = min(largeur, hauteur)
         left = (largeur - taille_cote) / 2
         top = (hauteur - taille_cote) / 2
@@ -87,7 +89,7 @@ def upload_and_publish(data: UploadRequest, request: Request):
         # Créez un contexte de dessin
         draw = ImageDraw.Draw(image)
 
-        largeur, hauteur = image.size
+
 
         # Définissez les coordonnées du point de départ et de fin du bandeau rouge
         point_depart = (0, hauteur // 1.5)  # Le point de départ est au milieu de l'image en bas
