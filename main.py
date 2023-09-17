@@ -217,7 +217,7 @@ def upload_and_publish(data: UploadRequest, request: Request):
         fichier = depot.get_contents(chemin_fichier)
         nouveau_contenu = output_image.read()
         # Créez le fichier dans le dépôt
-        depot.update_file(
+        depot.create_file(
             chemin_fichier,
             "Message de commit pour la mise à jour du fichier",
             nouveau_contenu,
