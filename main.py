@@ -177,7 +177,7 @@ def upload_and_publish(data: UploadRequest, request: Request):
             for word in text.split():
                 test_line = current_line + ("" if len(current_line) == 0 else " ") + word
                 test_width = draw.textbbox((0, 0), test_line, font=font)
-                if test_width <= max_width:
+                if test_width[0] <= max_width:
                     current_line = test_line
                 else:
                     lines.append(current_line)
