@@ -155,6 +155,16 @@ def upload_and_publish(data: UploadRequest, request: Request):
         textbbox = draw.textbbox((0, 0), text, font=font)
         text_width = textbbox[2] - textbbox[0]
 
+        if len(data.caption) < 50:
+            font_size = 82
+        elif 50 < len(data.caption) < 75:
+            font_size = 62
+        elif 75 < len(data.caption) < 100:
+            font_size = 52
+        elif 100 < len(data.caption) < 150:
+            font_size = 42
+        else:
+            font_size = 32
     
         # Fonction pour ajouter automatiquement des retours à la ligne en cas de débordement et centrer le texte
         def wrap_and_center_text(text, font, max_width):
