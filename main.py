@@ -145,69 +145,63 @@ def upload_and_publish(data: UploadRequest, request: Request):
 
 
         # Spécifiez la police, le texte et la couleur du texte
-        font_size = 120
+        font_size = 42
         font = ImageFont.truetype("arial.ttf", font_size)  # Utilisez la police Arial avec une taille initiale
 
         text = data.caption
         text_color = (0, 0, 0)  # Couleur du texte (R, G, B)
 
-        # Calculez la hauteur maximale pour le texte (pour qu'il n'y ait pas de débordement)
-        max_text_height = point_fin[1] - point_depart[1]
-
-        # Calculez la largeur maximale que le texte peut avoir sans déborder du cadre
-        max_text_width = point_fin[0] - point_depart[0]
-
         # Calculez la largeur du texte avec la police actuelle
         textbbox = draw.textbbox((0, 0), text, font=font)
         text_width = textbbox[2] - textbbox[0]
-        text_height = textbbox[3] - textbbox[1]
 
-        while text_width > max_text_width:
-            font_size -= 1  # Réduire la taille de la police
-            font = ImageFont.truetype("arial.ttf", font_size)  # Réinitialiser la police avec la nouvelle taille
-        
-            # Recalculer la largeur du texte
-            textbbox = draw.textbbox((0, 0), text, font=font)
-            text_width = textbbox[2] - textbbox[0]
     
-        # Divisez le texte en lignes qui s'ajustent à la largeur maximale
-        def wrap_text(text, font, max_width):
+        # Fonction pour ajouter automatiquement des retours à la ligne en cas de débordement et centrer le texte
+        def wrap_and_center_text(text, font, max_width):
             lines = []
-            current_line = ""
+            current_line = []
+            current_line_width = 0
+
             for word in text.split():
-                test_line = current_line + ("" if len(current_line) == 0 else " ") + word
-                test_width = draw.textbbox((0, 0), test_line, font=font)
-                if test_width[0] <= max_width:
-                    current_line = test_line
+                word_bbox = draw.textbbox((0, 0), word, font=font)
+                word_width = word_bbox[2] - word_bbox[0]
+
+                if current_line_width + word_width <= max_width:
+                    current_line.append(word)
+                    current_line_width += word_width + draw.textbbox((0, 0), " ", font=font)[2] - draw.textbbox((0, 0), " ", font=font)[0]
                 else:
-                    lines.append(current_line)
-                    current_line = word
-            if len(current_line) > 0:
-                lines.append(current_line)
-            return lines
-        
-        lines = wrap_text(text, font, max_text_width)
-        
-        # Calculez la hauteur totale du texte
-        total_text_height = len(lines) * (textbbox[3] - textbbox[1])
-        
-        # Tant que le texte est plus haut que ce qui est autorisé, réduisez la taille de la police
-        while total_text_height > max_text_height:
-            font_size -= 1
-            font = ImageFont.truetype("arial.ttf", font_size)
-            lines = wrap_text(text, font, max_text_width)
-            total_text_height = len(lines) * (textbbox[3] - textbbox[1])
-        
-        # Calculez la position y pour centrer le texte en hauteur
-        y = point_depart[1] + (max_text_height - total_text_height) / 2
-        
-        # Dessinez chaque ligne de texte avec la police adaptée
-        for line in lines:
+                    lines.append(" ".join(current_line))
+                    current_line = [word]
+                    current_line_width = word_width + draw.textbbox((0, 0), " ", font=font)[2] - draw.textbbox((0, 0), " ", font=font)[0]
+
+            if current_line:
+                lines.append(" ".join(current_line))
+
+            # Centrer le texte en fonction de la largeur maximale
+            centered_lines = []
+            for line in lines:
+                line_bbox = draw.textbbox((0, 0), line, font=font)
+                line_width = line_bbox[2] - line_bbox[0]
+                centered_x = (max_width - line_width) / 2
+                centered_lines.append((line, centered_x))
+
+            return centered_lines
+
+        # Ajoutez le texte en tenant compte de la hauteur maximale
+        wrapped_and_centered_lines = wrap_and_center_text(text, font, largeur)
+
+        # Dessinez le texte en tenant compte de la hauteur maximale
+        current_y = point_depart[1] + 10 # Position y (en bas du rectangle)
+        for line, centered_x in wrapped_and_centered_lines:
             textbbox = draw.textbbox((0, 0), line, font=font)
-            text_width = textbbox[2] - textbbox[0]
-            x = point_depart[0] + (max_text_width - text_width) / 2
-            draw.text((x, y), line, fill=text_color, font=font)
-            y += textbbox[3] - textbbox[1]
+            text_height = textbbox[3] - textbbox[1]
+
+            if current_y + text_height <= point_fin[1]:
+                # Si le texte tient dans la hauteur maximale, ajoutez-le
+                x = centered_x  # Position x (centrée par rapport au rectangle)
+                y = current_y  # Position y (en bas du rectangle)
+                draw.text((x, y), line, fill=text_color, font=font)
+                current_y += text_height  # Met à jour la position y pour le texte suivant
 
 
 
