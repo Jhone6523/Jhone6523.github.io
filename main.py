@@ -154,6 +154,9 @@ def upload_and_publish(data: UploadRequest, request: Request):
         # Calculez la hauteur maximale pour le texte (pour qu'il n'y ait pas de débordement)
         max_text_height = point_fin[1] - point_depart[1]
 
+        # Calculez la largeur maximale que le texte peut avoir sans déborder du cadre
+        max_text_width = point_fin[0] - point_depart[0]
+
         # Calculez la largeur du texte avec la police actuelle
         textbbox = draw.textbbox((0, 0), text, font=font)
         text_width = textbbox[2] - textbbox[0]
