@@ -117,10 +117,7 @@ def upload_and_publish(data: UploadRequest, request: Request):
         mentions_outline_color = (0, 0, 0)  # Couleur du contour (noir)
         mentions_outline_width = 2  # Largeur du contour
         
-        # Dessiner les mentions "Photo de" et "Via" avec contour noir
-        for dx in [-mentions_outline_width, 0, mentions_outline_width]:
-            for dy in [-mentions_outline_width, 0, mentions_outline_width]:
-                draw.text((x + dx, max_y + dy), mentions_text, fill=mentions_outline_color, font=font_mentions)
+        
 
 
 
@@ -137,6 +134,11 @@ def upload_and_publish(data: UploadRequest, request: Request):
         # Assurez-vous que le texte ne dépasse pas les limites de l'image
         x = min(max_x, max(10, max_x))  # Assurez-vous que x est dans la plage [10, max_x]
 
+        # Dessiner les mentions "Photo de" et "Via" avec contour noir
+        for dx in [-mentions_outline_width, 0, mentions_outline_width]:
+            for dy in [-mentions_outline_width, 0, mentions_outline_width]:
+                draw.text((x + dx, max_y + dy), mentions_text, fill=mentions_outline_color, font=font_mentions)
+                
         # Ajoutez le texte de crédit à l'image
         draw.text((x, max_y), mentions_text, fill=mentions_text_color, font=font_mentions)
 
