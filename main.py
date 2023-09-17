@@ -27,7 +27,7 @@ def upload_and_publish(data: UploadRequest, request: Request):
             if os.path.exists(cookie_del[0]):
                 os.remove(cookie_del[0])
 
-        chemin_de_l_image = "credited_image.jpg.REMOVE_ME"
+        chemin_de_l_image = "credited_image.png.REMOVE_ME"
 
         # Vérifiez si le fichier image existe
         if os.path.exists(chemin_de_l_image):
@@ -60,7 +60,7 @@ def upload_and_publish(data: UploadRequest, request: Request):
             image_content = response.content
 
             # Spécifier le nom du fichier dans lequel vous voulez enregistrer l'image
-            nom_fichier = "phoque.jpg"
+            nom_fichier = "phoque.png"
 
             # Écrire le contenu de l'image dans le fichier
             with open(nom_fichier, "wb") as fichier:
@@ -183,7 +183,7 @@ def upload_and_publish(data: UploadRequest, request: Request):
 
 
         # Enregistrez l'image modifiée
-        modified_image_path = 'credited_image.jpg'
+        modified_image_path = 'credited_image.png'
         # Get the base URL of the current request
         current_domain = str(request.base_url)
 
@@ -203,14 +203,14 @@ def upload_and_publish(data: UploadRequest, request: Request):
         depot = github.get_user().get_repo(nom_depot)
 
         # Spécifiez le chemin et le nom du fichier que vous avez ajouté
-        chemin_fichier = "image.jpg"
+        chemin_fichier = "image.png"
 
         # Spécifiez le contenu que vous avez mis dans le fichier (peut être vide)
         contenu_fichier = "Contenu de votre fichier."
         
         # Enregistrez l'image modifiée en tant qu'octets (bytes)
         output_image = io.BytesIO()
-        image.save(output_image, format="JPEG")  # Assurez-vous de spécifier le format approprié
+        image.save(output_image, format="PNG")  # Assurez-vous de spécifier le format approprié
 
         # Rembobinez le flux d'octets pour le lire à partir du début
         output_image.seek(0)
@@ -226,7 +226,7 @@ def upload_and_publish(data: UploadRequest, request: Request):
         )
 
         # Construisez l'URL de téléchargement direct
-        lien_fichier = f"https://github.com/Jhone6523/imageinsta/blob/master/image.jpg?raw=true"
+        lien_fichier = f"https://github.com/Jhone6523/imageinsta/blob/master/image.png?raw=true"
 
         print(f'Le fichier "{chemin_fichier}" a été ajouté avec succès au dépôt GitHub "{nom_depot}".')
         print(f'Le lien vers le fichier est : {lien_fichier}')
