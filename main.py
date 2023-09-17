@@ -27,7 +27,7 @@ def upload_and_publish(data: UploadRequest, request: Request):
             if os.path.exists(cookie_del[0]):
                 os.remove(cookie_del[0])
 
-        chemin_de_l_image = "credited_image.png.REMOVE_ME"
+        chemin_de_l_image = "credited_image.jpg.REMOVE_ME"
 
         # Vérifiez si le fichier image existe
         if os.path.exists(chemin_de_l_image):
@@ -60,7 +60,7 @@ def upload_and_publish(data: UploadRequest, request: Request):
             image_content = response.content
 
             # Spécifier le nom du fichier dans lequel vous voulez enregistrer l'image
-            nom_fichier = "phoque.png"
+            nom_fichier = "phoque.jpg"
 
             # Écrire le contenu de l'image dans le fichier
             with open(nom_fichier, "wb") as fichier:
