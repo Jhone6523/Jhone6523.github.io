@@ -157,7 +157,17 @@ def upload_and_publish(data: UploadRequest, request: Request):
         # Calculez la largeur du texte avec la police actuelle
         textbbox = draw.textbbox((0, 0), text, font=font)
         text_width = textbbox[2] - textbbox[0]
+        text_height = textbbox[3] - textbbox[1]
 
+        while text_width > max_text_width or text_height > max_text_height:
+            font_size -= 1  # Réduire la taille de la police
+            font = ImageFont.truetype("arial.ttf", font_size)  # Réinitialiser la police avec la nouvelle taille
+        
+            # Recalculer la largeur et la hauteur du texte
+            textbbox = draw.textbbox((0, 0), text, font=font)
+            text_width = textbbox[2] - textbbox[0]
+            text_height = textbbox[3] - textbbox[1]
+    
         # Fonction pour ajouter automatiquement des retours à la ligne en cas de débordement et centrer le texte
         def wrap_and_center_text(text, font, max_width):
             lines = []
