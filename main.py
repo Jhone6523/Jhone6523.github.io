@@ -150,9 +150,7 @@ def upload_and_publish(data: UploadRequest, request: Request):
         text = data.caption
         text_color = (0, 0, 0)  # Couleur du texte (R, G, B)
 
-        # Calculez la largeur du texte avec la police actuelle
-        textbbox = draw.textbbox((0, 0), text, font=font)
-        text_width = textbbox[2] - textbbox[0]
+
 
         if len(data.caption) < 30:
             font_size = 92
@@ -168,6 +166,11 @@ def upload_and_publish(data: UploadRequest, request: Request):
             font_size = 32
 
         font = ImageFont.truetype("arial.ttf", font_size)  # Utilisez la police Arial avec une taille initiale
+
+       # Calculez la largeur du texte avec la police actuelle
+        textbbox = draw.textbbox((0, 0), text, font=font)
+        text_width = textbbox[2] - textbbox[0]
+        
         # Fonction pour ajouter automatiquement des retours à la ligne en cas de débordement et centrer le texte
         def wrap_and_center_text(text, font, max_width):
             lines = []
