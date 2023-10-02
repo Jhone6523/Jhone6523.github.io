@@ -85,19 +85,23 @@ def upload_and_publish(data: UploadRequest, request: Request):
         draw.rectangle([point_depart, point_fin], fill=couleur_bandeau)
 
         
-        couleur_contours = (178,34,34)  
+        couleur_contours = (197,68,62)  
         largeur_bordure = 40
         position_ligne = (point_depart[0], point_fin[1])
         longueur_ligne = largeur  
         draw.line([position_ligne, (position_ligne[0] + longueur_ligne, position_ligne[1])], fill=couleur_contours, width=largeur_bordure)
 
 
-        font_mentions = ImageFont.truetype("arial.ttf", 14)  
-        mentions_text = "Picture by " + data.auteur + " \n Via " + data.via  
+        font_mentions = ImageFont.truetype("ArchivoNarrow-Bold.ttf", 20)
+        picture = "Photo " + data.auteur
+        via = "via: " + data.via
+        if(data.auteur != ''):
+            mentions_text = via + " \n " + picture
+        else : 
+            mentions_text = via
         mentions_text_color = (255, 255, 255)  
 
-        mentions_outline_color = (0, 0, 0) 
-        mentions_outline_width = 2  
+
        
         textbbox = draw.textbbox((0, 0), mentions_text, font=font_mentions)
 
@@ -108,12 +112,6 @@ def upload_and_publish(data: UploadRequest, request: Request):
         max_y = 10  
 
         x = min(max_x, max(10, max_x)) 
-
-
-        for dx in [-mentions_outline_width, 0, mentions_outline_width]:
-            for dy in [-mentions_outline_width, 0, mentions_outline_width]:
-                draw.text((x + dx, max_y + dy), mentions_text, fill=mentions_outline_color, font=font_mentions)
-                
 
         draw.text((x, max_y), mentions_text, fill=mentions_text_color, font=font_mentions)
 
@@ -139,7 +137,7 @@ def upload_and_publish(data: UploadRequest, request: Request):
         text = data.headline
         text_color = (0, 0, 0)
 
-        font = ImageFont.truetype("arial.ttf", font_size)  
+        font = ImageFont.truetype("ArchivoNarrow-Bold.ttf", font_size)  
 
         textbbox = draw.textbbox((0, 0), text, font=font)
         text_width = textbbox[2] - textbbox[0]
@@ -174,8 +172,8 @@ def upload_and_publish(data: UploadRequest, request: Request):
             return centered_lines
 
         wrapped_and_centered_lines = wrap_and_center_text(text, font, largeur)
-
-        current_y = point_depart[1] + 10
+        line_spacing = 10
+        current_y = point_depart[1] + 30
         for line, centered_x in wrapped_and_centered_lines:
             textbbox = draw.textbbox((0, 0), line, font=font)
             text_height = textbbox[3] - textbbox[1]
@@ -184,8 +182,40 @@ def upload_and_publish(data: UploadRequest, request: Request):
                 x = centered_x  
                 y = current_y  
                 draw.text((x, y), line, fill=text_color, font=font)
-                current_y += text_height  
+                current_y += text_height + line_spacing  
 
+        # Obtenez les dimensions de l'image
+        image_width, image_height = image.size
+
+        # Définissez la taille et la position du rectangle au milieu de l'image
+        rect_width = 150
+        rect_height = 50
+        rect_x = (image_width - rect_width) // 2  # Au milieu horizontalement
+        rect_y = (image_height - rect_height) // 1.48  # Un quart de la hauteur de l'image depuis le haut
+
+        # Définissez la couleur du rectangle
+        rect_color = (197,68,62)  # Rouge
+
+        # Dessinez le rectangle
+        draw.rectangle([rect_x, rect_y, rect_x + rect_width, rect_y + rect_height], fill=rect_color)
+
+        # Définissez la couleur du texte et sa police
+        text_color = (255, 255, 255)  # Blanc
+        date_font = ImageFont.truetype("ArchivoNarrow-Bold.ttf", 46)  # Choisissez la taille de police souhaitée
+
+        # Obtenez la date actuelle
+        now = "report"
+
+        # Obtenez les dimensions du texte
+        textbbox = draw.textbbox((0, 0), now, font=date_font)
+        text_width = textbbox[2] - textbbox[0]
+        text_height = textbbox[3] - textbbox[1]
+
+        # Calculez la position du texte au centre du rectangle
+
+
+        # Dessinez la date au centre du rectangle
+        draw.text((345, 494), now, fill=text_color, font=date_font)
 
 
         filename = str(uuid.uuid4()) + ".jpg"
