@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Image Downloader</title>
+    </head>
+    <body>
+        <h1>Pictures</h1>
+        <ul>
+            {% for image in donnees %}
+                <li>
+                    <a href="/image/{{ image.name_image }}" target="_blank">{{ image.name_image }}</a>
+                    <p>Caption : {{ image.caption }}</p>
+                    <p>Date : {{ image.date }} </p>
+                </li>
+            {% endfor %}
+        </ul>
+    </body>
+</html>
